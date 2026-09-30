@@ -39,12 +39,23 @@ class DimReferrer(Base):
     fact_clicks = relationship("FactClick", back_populates="referrer")
 
 
+class DimCountry(Base):
+    __tablename__ = "dim_countries"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    country_code = Column(String(10), unique=True, nullable=False, index=True) # TH, US, JP, Unknown
+    country_name = Column(String(100), nullable=False)
+
+    fact_clicks = relationship("FactClick", back_populates="country")
+
+
 class DimUrl(Base):
     __tablename__ = "dim_urls"
 
     id = Column(String(64), primary_key=True) # Matches UUID from Core DB
     original_url = Column(String(2048), nullable=False)
     short_code = Column(String(32), unique=True, nullable=False, index=True)
+    custom_alias = Column(String(100), nullable=True, index=True)
     user_id = Column(String(64), nullable=True, index=True)
 
     fact_clicks = relationship("FactClick", back_populates="url")
@@ -59,10 +70,11 @@ class FactClick(Base):
     browser_id = Column(Integer, ForeignKey("dim_browsers.id"), nullable=False, index=True)
     platform_id = Column(Integer, ForeignKey("dim_platforms.id"), nullable=False, index=True)
     referrer_id = Column(Integer, ForeignKey("dim_referrers.id"), nullable=False, index=True)
+    country_id = Column(Integer, ForeignKey("dim_countries.id"), nullable=True, index=True)
     
     clicked_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
     click_count = Column(Integer, default=1, nullable=False)
-    ip_masked = Column(String(64), nullable=True) # e.g. 192.168.***.*** for privacy
+    ip_masked = Column(String(64), nullable=True) # e.g. 192.168.***.***
 
     # Relationships
     url = relationship("DimUrl", back_populates="fact_clicks")
@@ -70,6 +82,7 @@ class FactClick(Base):
     browser = relationship("DimBrowser", back_populates="fact_clicks")
     platform = relationship("DimPlatform", back_populates="fact_clicks")
     referrer = relationship("DimReferrer", back_populates="fact_clicks")
+    country = relationship("DimCountry", back_populates="fact_clicks")
 
     __table_args__ = (
         Index("idx_fact_clicks_lookup", "url_id", "clicked_at"),

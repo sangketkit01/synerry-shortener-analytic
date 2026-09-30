@@ -3,6 +3,7 @@ from src.models.star_schema import (
     DimBrowser,
     DimPlatform,
     DimReferrer,
+    DimCountry,
     DimUrl,
     FactClick,
 )
@@ -12,6 +13,7 @@ __all__ = [
     "DimBrowser",
     "DimPlatform",
     "DimReferrer",
+    "DimCountry",
     "DimUrl",
     "FactClick",
 ]

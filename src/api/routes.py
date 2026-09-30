@@ -118,15 +118,9 @@ async def get_summary(
 ):
     """
     High-speed aggregate metrics and daily timeseries from Star Schema.
-    Runs on-demand sync of unprocessed clicks first so metrics reflect real-time clicks.
+    Pure OLAP query reading directly from FactClick (data sync occurs via 22:00 Cron or manual trigger).
     """
     check_scope_authorization(url_id, short_code, user_id, x_admin_request, x_internal_key)
-
-    # Auto-sync on-demand for real-time consistency
-    try:
-        await run_etl_pipeline()
-    except Exception as e:
-        logger.warning(f"On-demand ETL sync before summary skipped: {e}")
 
     query = db.query(FactClick)
 

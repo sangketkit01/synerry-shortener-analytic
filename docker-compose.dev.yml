@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  postgres-analytics-dev:
+    image: postgres:16-alpine
+    container_name: shorturl-postgres-analytics-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_dev_password
+      POSTGRES_DB: shorturl_analytics_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_analytics_dev_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_analytics_dev_data:

@@ -1,51 +1,28 @@
-# Analytics Engine & Data Pipeline (`synerry-shortener-analytic`)
+# Installation & Setup Guide
 
-บริการคลังข้อมูลสถิติและการประมวลผล Data Pipeline (ETL) พัฒนาด้วย Python 3.12, FastAPI, SQLAlchemy และ Pandas สำหรับระบบ Synerry Short URL
+### Prerequisites
+- Python 3.10+
+- PostgreSQL 14+ (Port 5432)
 
----
-
-## 1. ข้อมูลการทดสอบออนไลน์ (Live Demo & Credentials)
-
-* **URL ทดสอบระบบออนไลน์**: [https://synerry-shortener.eastasia.cloudapp.azure.com](https://synerry-shortener.eastasia.cloudapp.azure.com)
-* **Administrator**: `admin@synerry.com` / `Admin@123456`
-* **Standard User**: `demo@synerry.com` / `Demo@123456`
-
----
-
-## 2. ลิงก์ Repositories ที่เกี่ยวข้อง (Microservices)
-
-* **Frontend**: [https://github.com/sangketkit01/synerry-shortener-frontend](https://github.com/sangketkit01/synerry-shortener-frontend)
-* **Backend API**: [https://github.com/sangketkit01/synerry-shortener-backend](https://github.com/sangketkit01/synerry-shortener-backend)
-* **Analytics Engine**: [https://github.com/sangketkit01/synerry-shortener-analytic](https://github.com/sangketkit01/synerry-shortener-analytic)
-
----
-
-## 3. วิธีการติดตั้งและเริ่มใช้งาน (Installation & Setup)
-
-### ข้อกำหนดของระบบ (Prerequisites)
-* Python v3.10 ขึ้นไป และ pip
-* PostgreSQL v14 ขึ้นไป (พอร์ต 5432)
-
-### ขั้นตอนการรัน
+### Setup & Run Development
 
 ```bash
-# 1. สร้างและเปิดใช้งาน Virtual Environment
-# บน Windows:
+# 1. Create and activate virtual environment
 python -m venv venv
-.\venv\Scripts\activate
 
-# บน Linux / macOS:
-# python3 -m venv venv
+# Windows:
+.\venv\Scripts\activate
+# Linux/macOS:
 # source venv/bin/activate
 
-# 2. ติดตั้ง Dependencies
+# 2. Install dependencies
 pip install -r requirements.txt
 
-# 3. ตั้งค่าไฟล์ Environment Variables
+# 3. Setup environment variables
 cp .env.example .env
 
-# 4. เริ่มรันเซิร์ฟเวอร์ในโหมดพัฒนา
+# 4. Start analytics server
 python -m uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-API Documentation (Swagger UI) พร้อมใช้งานที่: `http://localhost:8000/docs`
+Service will run at `http://localhost:8000` (Swagger UI at `/docs`)
